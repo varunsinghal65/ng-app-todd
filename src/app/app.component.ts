@@ -1,3 +1,16 @@
+/**
+ * PROPERTY BINDING LESSON :
+ * 
+ * Angular can bind the TS component class varibles to the javascript properties of an html DOM element.
+ * To do so follow the syntax 
+ * 
+ * <htmlElem [javascriptDomProperty] = "componentVariableName"></htmlElem>
+ * 
+ * THIS IS A 1 WAY BINDING - COMPONENT VARIBALE TO TEMPLATE
+ * 
+ * check class for template section below for e.g
+ */
+
 
 import {Component} from '@angular/core';
 
@@ -6,23 +19,23 @@ import {Component} from '@angular/core';
   styleUrls : ['app.component.scss'],
   template : `
     <div class='app'>
-      <!--Interpolation refers to embedding expressions into marked up text,
-       interpolation uses curly braces as delimiter -->
-      <!-- X in {{X}} is called expression --> 
-      <div>{{ title + '!'}}</div>
-      <div>{{numberOne}}</div>
-      <div>{{numberTwo + numberOne}}</div>
-      <div>{{ isHappy ? ':-)' : ':-(' }}
+      <div>{{ title }}</div>
     </div>
+    <div>
+      <h1 [innerHTML]="title"></h1>
+    </div>
+    <img [src]="logo"/>
+    <!-- Since property binding is 1 way, if i type in the input box, then the value is not assigned to 
+    component varibale "name", thus second statement still shows "Varun"-->
+    <input type="text" [value]="name">
+    <div>{{name}}</div>
   `
 })
 
 export class AppComponent {
-  //Nice way : All declarations here, init in constructor
-  numberOne : number = 1;
-  numberTwo : number = 2;
-  isHappy : boolean = false;
   title: string;
+  name: string = "Varun";
+  logo: string = "assets/img/logo.svg";
   constructor () {
     this.title = 'Ultimate Angular';
   }
