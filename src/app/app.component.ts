@@ -1,16 +1,21 @@
 /**
- * PROPERTY BINDING LESSON :
+ * EVENT BINDING LESSON :
  * 
- * Angular can bind the TS component class varibles to the javascript properties of an html DOM element.
+ * Angular can bind class methods to the HTML dom object events
  * To do so follow the syntax 
  * 
- * <htmlElem [javascriptDomProperty] = "componentVariableName"></htmlElem>
+ * <htmlElem (javascriptDomProperty) = "handlerMethodName($event)"></htmlElem>
  * 
- * THIS IS A 1 WAY BINDING - COMPONENT VARIBALE TO TEMPLATE
+ * THIS IS still A 1 WAY BINDING - COMPONENT VARIBALE TO TEMPLATE
  * 
  * check class for template section below for e.g
+ * 
+ * Flow explanation, user enters something in <input>, input event is fired, trigerring
+ * handleInput(), which updates value of component variable "name".
+ * 
+ * Angular change detection mechanism kicks in, provides the updated value of "name"
+ * to all the listeners.
  */
-
 
 import {Component} from '@angular/core';
 
@@ -18,25 +23,24 @@ import {Component} from '@angular/core';
   selector : 'app-root',
   styleUrls : ['app.component.scss'],
   template : `
-    <div class='app'>
-      <div>{{ title }}</div>
-    </div>
-    <div>
-      <h1 [innerHTML]="title"></h1>
-    </div>
-    <img [src]="logo"/>
-    <!-- Since property binding is 1 way, if i type in the input box, then the value is not assigned to 
-    component varibale "name", thus second statement still shows "Varun"-->
-    <input type="text" [value]="name">
-    <div>{{name}}</div>
+    <button (click) = "handleClick()">Change Name</button>
+    <input 
+      (input) = "handleInput($event)"
+      [value] = "name"/>
+    <div>{{ name }}</div>
   `
 })
 
 export class AppComponent {
   title: string;
-  name: string = "Varun";
-  logo: string = "assets/img/logo.svg";
+  name: string = "Todd Motto";
   constructor () {
     this.title = 'Ultimate Angular';
+  }
+  handleClick() {
+    this.name = "varun singhal";
+  }
+  handleInput(event :any) {
+    this.name = event.target.value;
   }
 }
