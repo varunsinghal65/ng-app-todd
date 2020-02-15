@@ -8,6 +8,10 @@ import { BrowserModule } from '@angular/platform-browser';
  * This module is used because we want to use directives etcin this module.
  */
 import { CommonModule } from  '@angular/common';
+/**
+ * This module will provide 2 way data binding, more on successive lessons
+ */
+import { FormsModule } from '@angular/forms';
 
 /**
  * @NgModule({X}), X provides module definition for "App Module"
@@ -23,7 +27,7 @@ import { CommonModule } from  '@angular/common';
     AppComponent
   ],
   imports : [
-    BrowserModule, CommonModule
+    BrowserModule, CommonModule, FormsModule
   ],
   bootstrap : [AppComponent],
 })
