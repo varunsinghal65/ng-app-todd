@@ -1,25 +1,13 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, OnInit } from '@angular/core';
 import { Passenger } from '../../models/passenger.interface';
 
 /**
- * The example shows how to notify the parent conatiner from child stateless containers.
+ *To solve this problem : local state changes are comprisiming container state(check comment in passenger-dashboard template)
  *
- * Flow :
- * ----------
- * Once the user clicks on edit or remove, local state changes, we need to notify the parent container.
- * We do that with the help of event emitters and outputs.
- *
- * - User clicks on "Remove", on OnRemove() is called.
- * - in onRemove() we emit the event, and specify the latest "detail" instance in argument.
- * - in container - passenger-dashboard, event binding is present something like this
- *
- *    <passenger-detail (remove)="handleRemove()">
- *
- * - this event binding causes handleRemove() of class "passenger-dashboard" to be trigerred as a callback, whenever
- * - "remove" event is emitted from passenger-detail
- * - the container("passenger-dashboard") can then go ahead, remove the detail from it's instance, triggering a re-render
- * of the ui.
- * - since the "passengers" list now does not have the "detail" object now, the dom does not incude it and removal is done.
+ * - We use ngOnChnages to solve this, its a life cyclye hook that;s called even before ngOnInit
+ * - It thus, allows us to intercept the incoming input from parent. In our case "detail" ,
+ * the one decorated with @Input in this class.
+ * - On interception, the hook provides us a "changes" object, since
  *
  *
  */
@@ -64,7 +52,7 @@ import { Passenger } from '../../models/passenger.interface';
     </button>
 `
 })
-export class PassengerDetailComponent {
+export class PassengerDetailComponent implements OnChanges, OnInit{
 
   /**
    * Inputs to component from parent - downward flow of data
@@ -82,6 +70,29 @@ export class PassengerDetailComponent {
   edit: EventEmitter<any> = new EventEmitter();
 
   isEditMode: boolean = false;
+
+  /**
+   * We dont use ng on init, because ngOnChanges is called before ngOnInit and
+   * inside ngOnChanges, both child's data and data sent by parent are availble,
+   * thus, we break the binding between them in ngOnChanges, so that child's "detail" and parent's "detail" do not point
+   * to the same reference and thus cause pollution.
+   */
+  ngOnInit() {
+    console.log("ngoninit called");
+  }
+
+  /**
+   * This hook will be called by angular before the component is even initialized.
+   *
+   * So, in this method,  we will retrieve the data of the child, and assign it the data coming from parent using
+   * an immuatble clone operation.
+   *
+   * This will remove the binding between the child data and parent data, and, they will stop pointing to the same memory reference
+   */
+  ngOnChanges(changes) {
+    console.log("ngonchanges called");
+    this.detail = Object.assign({}, changes.detail.currentValue);
+  }
 
   onNameChange(newName: string) {
     this.detail.fullname = newName;
