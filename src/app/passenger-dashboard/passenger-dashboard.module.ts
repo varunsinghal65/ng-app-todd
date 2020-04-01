@@ -7,19 +7,17 @@ import { PassengerDashboardComponent } from './containers/passenger-dashoard.com
 import {PassengerCountComponent} from './components/passenger-count/passenger-count.component';
 import {PassengerDetailComponent} from './components/passenger-detail/passenger-detail.component';
 
+//services
+import { PassengerDashboardService } from './services/passenger-dashboard.service';
+
 @NgModule({
     declarations : [PassengerDashboardComponent, PassengerCountComponent, PassengerDetailComponent],
     imports : [CommonModule],
+    exports : [PassengerDashboardComponent],
     /**
-     * We want passenger-dashboard component to be rendered in a external component's template, thats located
-     * This component is outside this module.
-     *
-     * Its not sufficient to import Passenger-dashboard.module in external module,
-     * We also need to tell angulat to expose
-     * the passenger-dashboard component, so that this component can be rednered in
-     * an external component belonging to other module.
+     * This is used to declare any service classes, that the declared components would like to use.
      */
-    exports : [PassengerDashboardComponent]
+    providers : [PassengerDashboardService]
 })
 export class PassengerDashboardModule {
 
