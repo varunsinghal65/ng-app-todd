@@ -35,10 +35,15 @@ export class PassengerDashboardComponent implements OnInit{
     this.passengerDashboardSvc = passengerDashboardSvc;
   }
   /**
-   * Use this hook for getting the data through services
+   * Flow :
+   *
+   * Tell service to get pax, service returns observable, attach your callback though subscribe api of observable.
+   * Callback is called when the data is received from server, meanwhile, code execution proceeds.
    */
   ngOnInit() {
-    this.passengers = this.passengerDashboardSvc.getPassengers();
+    this.passengerDashboardSvc.getPassengers().subscribe((data : Passenger[])=>{
+      this.passengers = data;
+    });
   }
 
   handleRemove(event: Passenger) {

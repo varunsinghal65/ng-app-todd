@@ -1,6 +1,7 @@
 import { Passenger } from '../models/passenger.interface';
 import {HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 /**
  * What is @Injectable() ?
@@ -24,41 +25,20 @@ import { Injectable } from '@angular/core';
  */
 @Injectable()
 export class PassengerDashboardService {
-     constructor(http : HttpClient) {
+     constructor(private http : HttpClient) {
 
      }
-    getPassengers() : Passenger[] {
-        return [{
-            id: 1,
-            fullname: 'Stephen',
-            checkedIn: true,
-            checkInDate: 1490742000000,
-            children: null
-          }, {
-            id: 2,
-            fullname: 'Rose',
-            checkedIn: false,
-            checkInDate: null,
-            children: [{ name: 'Ted', age: 12 },{ name: 'Chloe', age: 7 }]
-          }, {
-            id: 3,
-            fullname: 'James',
-            checkedIn: true,
-            checkInDate: 1491606000000,
-            children: null
-          }, {
-            id: 4,
-            fullname: 'Louise',
-            checkedIn: true,
-            checkInDate: 1488412800000,
-            children: [{ name: 'Jessica', age: 1 }]
-          }, {
-            id: 5,
-            fullname: 'Tina',
-            checkedIn: false,
-            checkInDate: null,
-            children: null
-          }];
+    getPassengers() : Observable<Passenger[]> {
+      /**
+       * You are specifying the type pf TS object you are expecting from the reponse
+       * Note : This only helps in compile time, at RT, its up to the API to provide you with
+       * correct typed data
+       *
+       * this method will returne a observable type that allows client to subscribe
+       * to this observable and attach their callback functions, which are called, when sever responds
+       * with data, a typical ASYNC request-respnse cycle.
+       */
+        return this.http.get<Passenger[]>("../../assets/api.json");
     }
 
 }
