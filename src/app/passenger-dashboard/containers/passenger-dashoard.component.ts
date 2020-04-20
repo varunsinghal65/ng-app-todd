@@ -7,6 +7,17 @@ import {Passenger} from '../../passenger-dashboard/models/passenger.interface';
     styleUrls : ['passenger-dashboard.component.scss'],
     template : `
     <passenger-count [items]="passengers"></passenger-count>
+    <!--
+    Issue here : because of the nature of JS,
+    the passenger-dashboard will not send a clone of the passengers in
+    [detail], instead it operates by passing reference,
+    Since reference is passed, when local component (passenger-detail) 's state changes
+    parent conatiner state is also impacted, this is actually not intended, since we would like to perform
+    the update only by emitting events from child
+    -->
+    <div *ngFor="let pax of passengers">
+    {{ pax.fullname }}
+    </div>
     <passenger-detail
       *ngFor="let pax of passengers;"
       [detail]="pax"
