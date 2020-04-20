@@ -8,6 +8,7 @@ import {Passenger} from '../../models/passenger.interface';
 @Component({
 selector : 'passenger-count',
 template : `
+    <h3>Airline Passengers</h3>
     <div>
     Total checkedin : {{ totalCheckedIn() }} / {{ items.length }}
     </div>

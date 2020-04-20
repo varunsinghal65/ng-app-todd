@@ -16,25 +16,16 @@ import {Passenger} from '../../passenger-dashboard/models/passenger.interface';
     styleUrls : ['passenger-dashboard.component.scss'],
     template : `
     <passenger-count [items]="passengers"></passenger-count>
-    <passenger-detail></passenger-detail>
-    <div>
-    <h3>Airline Passengers</h3>
-    <ul>
-      <li *ngFor="let passenger of passengers; let i = index;">
-        <span
-          class="status"
-          [class.checked-in]="passenger.checkedIn"></span>
-        {{ i }}: {{ passenger.fullname }}
-        <div class="date">
-          Check in date:
-          {{ passenger.checkInDate ? (passenger.checkInDate | date: 'yMMMMd' | uppercase) : 'Not checked in' }}
-        </div>
-        <div class="children">
-          Children: {{ passenger.children?.length || 0 }}
-        </div>
-      </li>
-    </ul>
-    </div>
+    <!--
+    *ngFor will cause angular to render the detail component
+    for every pax in passengers.
+
+    Using property binding, we are passing "pax" to child component
+    -->
+    <passenger-detail
+      *ngFor="let pax of passengers;"
+      [detail]="pax">
+    </passenger-detail>
     `
 })
 export class PassengerDashboardComponent implements OnInit{
