@@ -1,5 +1,5 @@
 /**
- * ngClass and className PROPERT bindings
+ * ngStyle and style PROPERTY bindings
  * 
  */
 
@@ -15,7 +15,6 @@ interface Passenger {
   selector: 'app-root',
   styleUrls: ['app.component.scss'],
   template: `
-  <h3>Airline passengers</h3>
     <!-- Let us say i want to display green and red dots against passengers names
     based on their checking status -->
     
@@ -25,6 +24,7 @@ interface Passenger {
     if pax.checkedIn evaluates to true, angular will 
     add css class "checked-in" to the existing classes list
      -->
+  <h3>Airline passengers</h3>   
   <ul>
     <li *ngFor="let pax of passengers; let i = index;">
       <span 
@@ -51,6 +51,7 @@ interface Passenger {
     In chrome dev tools, you can scan the LI elements and you will see the appropriate classes 
     added 
     -->
+    <h3>Airline passengers</h3>
     <ul>
     <li *ngFor="let pax of passengers; let i = index;">
       <span 
@@ -61,6 +62,46 @@ interface Passenger {
          'checked-out': !pax.checkedIn
        }
        ">
+      </span>
+      {{ i }} : {{ pax.fullName }}
+    </li>
+  </ul>
+
+   <!-- Way 3 : Using style property binding--> 
+    
+    <!--  This method will access the style HTML property of the DOM element
+    -->
+    <h3>Airline passengers</h3>
+    <ul>
+    <li *ngFor="let pax of passengers; let i = index;">
+      <span 
+       class="status"
+       [style.backgroundColor]="(pax.checkedIn ? 'green' : 'red')">
+      </span>
+      {{ i }} : {{ pax.fullName }}
+    </li>
+  </ul>
+
+  <!-- Way 4 : Using ngStyle --> 
+    
+    <!--      
+    We suppy ngStyle with the below configuration object : 
+    {
+      <CSS-STYLE-PROPERTY> : <TS COMPONENT boolean variable>
+    }
+    if TS variable is true, "CSS-STYLE-PROPERTY" is added to the style of the element
+     
+    In chrome dev tools, you can see the style added to the li elements
+    -->
+    <h3>Airline passengers</h3>
+    <ul>
+    <li *ngFor="let pax of passengers; let i = index;">
+      <span 
+       class="status"
+       [ngStyle]="
+       {
+         'backgroundColor': (pax.checkedIn ? 'green' : 'red' )
+       }">
       </span>
       {{ i }} : {{ pax.fullName }}
     </li>
