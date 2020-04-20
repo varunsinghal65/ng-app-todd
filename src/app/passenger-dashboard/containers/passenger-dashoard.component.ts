@@ -15,6 +15,8 @@ import {Passenger} from '../../passenger-dashboard/models/passenger.interface';
     selector : 'passenger-dashboard',
     styleUrls : ['passenger-dashboard.component.scss'],
     template : `
+    <passenger-count></passenger-count>
+    <passenger-detail></passenger-detail>
     <div>
     <h3>Airline Passengers</h3>
     <ul>

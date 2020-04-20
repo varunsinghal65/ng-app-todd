@@ -1,9 +1,14 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+//container
 import { PassengerDashboardComponent } from './containers/passenger-dashoard.component';
 
+//stateless childern of container
+import {PassengerCountComponent} from './components/passenger-count/passenger-count.component';
+import {PassengerDetailComponent} from './components/passenger-detail/passenger-detail.component';
+
 @NgModule({
-    declarations : [PassengerDashboardComponent],
+    declarations : [PassengerDashboardComponent, PassengerCountComponent, PassengerDetailComponent],
     imports : [CommonModule],
     /**
      * We want passenger-dashboard component to be rendered in a external component's template, thats located
