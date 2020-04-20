@@ -1,4 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {Passenger} from '../../models/passenger.interface';
+
 /**
  * Dumb or presentational or stateless child of container component
  *
@@ -7,10 +9,17 @@ import {Component} from '@angular/core';
 selector : 'passenger-count',
 template : `
     <div>
-    passenger count
+    Total checkedin : {{ totalCheckedIn() }} / {{ items.length }}
     </div>
 `
 })
 export class PassengerCountComponent {
+    @Input()
+    items: Passenger[];
 
+    totalCheckedIn() : number {
+        return this.items.filter((pax)=> {
+            return pax.checkedIn;
+        }).length;
+    }
 }
