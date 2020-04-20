@@ -1,29 +1,25 @@
 /**
- * ngStyle and style PROPERTY bindings
+ * Pipes - It's a data tranformation mechanism.
  * 
  */
 
 import { Component } from '@angular/core';
 
+/**
+ * "?X makes X as the optional property in interface"
+ */
+
 interface Passenger {
   id: number,
   fullName: string,
-  checkedIn: boolean
+  checkedIn: boolean,
+  checkedInDate? : number
 }
 
 @Component({
   selector: 'app-root',
   styleUrls: ['app.component.scss'],
   template: `
-    <!-- Let us say i want to display green and red dots against passengers names
-    based on their checking status -->
-    
-    <!-- Way 1 : Using class name--> 
-    
-    <!-- 
-    if pax.checkedIn evaluates to true, angular will 
-    add css class "checked-in" to the existing classes list
-     -->
   <h3>Airline passengers</h3>   
   <ul>
     <li *ngFor="let pax of passengers; let i = index;">
@@ -32,78 +28,13 @@ interface Passenger {
        [class.checked-in]="pax.checkedIn">
       </span>
       {{ i }} : {{ pax.fullName }}
-    </li>
-  </ul>
-
-    <!-- Way 2 : Using ngClass--> 
-    
-    <!-- 
-    What if tomorrow, i have to add multiple CSS classes/styles based on the 
-    many component variables ?
-
-    Of course, we can add in SASS, and use way 1, but we can also use ngClass, which is much cleaner,
-    We suppy ngClass with the below configuration object : 
-    {
-      <CSS-CLASS-NAME> : <TS COMPONENT boolean variable>
-    }
-    if TS variable is true, "CSS-CLASS-NAME" is added to the list of CSS classes.
-     
-    In chrome dev tools, you can scan the LI elements and you will see the appropriate classes 
-    added 
-    -->
-    <h3>Airline passengers</h3>
-    <ul>
-    <li *ngFor="let pax of passengers; let i = index;">
-      <span 
-       class="status"
-       [ngClass]="
-       {
-         'checked-in': pax.checkedIn, 
-         'checked-out': !pax.checkedIn
-       }
-       ">
-      </span>
-      {{ i }} : {{ pax.fullName }}
-    </li>
-  </ul>
-
-   <!-- Way 3 : Using style property binding--> 
-    
-    <!--  This method will access the style HTML property of the DOM element
-    -->
-    <h3>Airline passengers</h3>
-    <ul>
-    <li *ngFor="let pax of passengers; let i = index;">
-      <span 
-       class="status"
-       [style.backgroundColor]="(pax.checkedIn ? 'green' : 'red')">
-      </span>
-      {{ i }} : {{ pax.fullName }}
-    </li>
-  </ul>
-
-  <!-- Way 4 : Using ngStyle --> 
-    
-    <!--      
-    We suppy ngStyle with the below configuration object : 
-    {
-      <CSS-STYLE-PROPERTY> : <TS COMPONENT boolean variable>
-    }
-    if TS variable is true, "CSS-STYLE-PROPERTY" is added to the style of the element
-     
-    In chrome dev tools, you can see the style added to the li elements
-    -->
-    <h3>Airline passengers</h3>
-    <ul>
-    <li *ngFor="let pax of passengers; let i = index;">
-      <span 
-       class="status"
-       [ngStyle]="
-       {
-         'backgroundColor': (pax.checkedIn ? 'green' : 'red' )
-       }">
-      </span>
-      {{ i }} : {{ pax.fullName }}
+      <!-- JSON pipe is quite useful for debugging -->
+      <p>{{ pax | json }}</p>
+      <!-- Date pipe -->
+      <div>
+      Checked in date : 
+      {{  pax.checkedInDate ? (pax.checkedInDate | date:'MMMM d, y' | uppercase) : "Not checked In" }}
+      </div>
     </li>
   </ul>
 
@@ -114,7 +45,8 @@ export class AppComponent {
   passengers: Passenger[] = [{
     id: 1,
     fullName: 'Varun Singhal',
-    checkedIn: true
+    checkedIn: true,
+    checkedInDate : 1587400608880
   }, {
     id: 2,
     fullName: 'reeta',
@@ -122,7 +54,8 @@ export class AppComponent {
   }, {
     id: 3,
     fullName: 'Tina',
-    checkedIn: true
+    checkedIn: true,
+    checkedInDate: 1587400608880
   }]
 
 }
