@@ -2,29 +2,16 @@ import {Component, OnInit} from '@angular/core';
 import {Passenger} from '../../passenger-dashboard/models/passenger.interface';
 
 
-/**
- * ngOnInit lifecycle hook
- *
- * ngOnInit is a function called by angular, after a component is initialized.
- * "ng" in ngOnInit means that its invocation is managed by angular.
- *
- * We should place logic for fetching data, that the component plans to use,
- * in this function.
- */
 @Component({
     selector : 'passenger-dashboard',
     styleUrls : ['passenger-dashboard.component.scss'],
     template : `
     <passenger-count [items]="passengers"></passenger-count>
-    <!--
-    *ngFor will cause angular to render the detail component
-    for every pax in passengers.
-
-    Using property binding, we are passing "pax" to child component
-    -->
     <passenger-detail
       *ngFor="let pax of passengers;"
-      [detail]="pax">
+      [detail]="pax"
+      (edit)="handleEdit($event)"
+      (remove)="handleRemove($event)">
     </passenger-detail>
     `
 })
@@ -63,5 +50,31 @@ export class PassengerDashboardComponent implements OnInit{
       checkInDate: null,
       children: null
     }];
+  }
+
+  handleRemove(event: Passenger) {
+    /**
+     * This is a immutable state change
+     *
+     * We do not want to mutate the existing passenger, thus we use filter method,
+     * which will create return a new array
+     */
+    this.passengers = this.passengers.filter((pax:Passenger)=>{
+      return pax.id !== event.id;
+    });
+  }
+
+  handleEdit(event: Passenger) {
+    this.passengers = this.passengers.map((pax:Passenger)=>{
+      if (pax.id === event.id) {
+        /**
+         * Immutable state change, as we are creating a new object rather than modifying the old one.
+         * Object.assign does exactly that, copying data from event into a new instance of Passenger
+         */
+        pax = Object.assign({}, pax, event);
+      }
+      return pax;
+    });
+    console.log(this.passengers);
   }
 }

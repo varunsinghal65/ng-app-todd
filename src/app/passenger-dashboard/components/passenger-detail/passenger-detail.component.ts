@@ -1,29 +1,26 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Passenger } from '../../models/passenger.interface';
 
 /**
- * The example shows persisting the variables of a stateless component TS class.
- *
- * Remember :
- *
- * Whenever the TS calss instance tied to a the template changes,
- * entire template is re-rendered by angular.
- *
- * Local state of a component -> the instance of the component clas tied to it's template.
+ * The example shows how to notify the parent conatiner from child stateless containers.
  *
  * Flow :
- *----------
-
- * - By default, isEditMode is false.
- * - So <input>, which should display only in edit mode is not present in the dom, constructed by angular.
- * - Instead the div to show the full name is present in dom.
- * - User clicks on "edit" button, firing toggleEdit().
- * - toggleEdit() modified value of isEditMode - which is a component instance variable.
- * - angular change detection mechanism kicks in, re-renders the template.
- * - since isEditMode is now true, <input> elem is present and fullname div is absent from constructed dom.
- * - When user enters some data in <input>, due to event binding, the instance variable, "detail" is modified.
- * - When user clicks on "Done" button, toggleEdit is again fired, - triggering a re-render with editMode false.
- * - In this way we allowed the user to manipulate the local state of the component. Pretty sexy right ?
+ * ----------
+ * Once the user clicks on edit or remove, local state changes, we need to notify the parent container.
+ * We do that with the help of event emitters and outputs.
+ *
+ * - User clicks on "Remove", on OnRemove() is called.
+ * - in onRemove() we emit the event, and specify the latest "detail" instance in argument.
+ * - in container - passenger-dashboard, event binding is present something like this
+ *
+ *    <passenger-detail (remove)="handleRemove()">
+ *
+ * - this event binding causes handleRemove() of class "passenger-dashboard" to be trigerred as a callback, whenever
+ * - "remove" event is emitted from passenger-detail
+ * - the container("passenger-dashboard") can then go ahead, remove the detail from it's instance, triggering a re-render
+ * of the ui.
+ * - since the "passengers" list now does not have the "detail" object now, the dom does not incude it and removal is done.
+ *
  *
  */
 @Component({
@@ -58,13 +55,31 @@ import { Passenger } from '../../models/passenger.interface';
       </li>
     </ul>
 
+    <!-- Edit button -->
     <button (click)="toggleEdit()">{{ isEditMode ? "Done" : "Edit" }}
+    </button>
+
+    <!-- Remove button -->
+    <button (click)="onRemove()">Remove
     </button>
 `
 })
 export class PassengerDetailComponent {
+
+  /**
+   * Inputs to component from parent - downward flow of data
+   */
   @Input()
   detail: Passenger;
+
+  /**
+  * Outputs of the component - used to fire eventon local state changes,
+  * so that parent container can be updated/notified
+  */
+  @Output()
+  remove: EventEmitter<any> = new EventEmitter();
+  @Output()
+  edit: EventEmitter<any> = new EventEmitter();
 
   isEditMode: boolean = false;
 
@@ -73,6 +88,13 @@ export class PassengerDetailComponent {
   }
 
   toggleEdit() {
+    if (this.isEditMode) {
+      this.edit.emit(this.detail);
+    }
     this.isEditMode = !this.isEditMode;
+  }
+
+  onRemove() {
+    this.remove.emit(this.detail);
   }
 }
