@@ -80,7 +80,8 @@ export class PassengerDashboardComponent implements OnInit{
       if (pax.id === event.id) {
         /**
          * Immutable state change, as we are creating a new object rather than modifying the old one.
-         * Object.assign does exactly that, copying data from event into a new instance of Passenger
+         * Object.assign does exactly that, copying data from existing object ("pax") and then copying data from
+         * "event", the operation basically merged pax and event and creates a new instance of Passenger with the merged data.
          */
         pax = Object.assign({}, pax, event);
       }
