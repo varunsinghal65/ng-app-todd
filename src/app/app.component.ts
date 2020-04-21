@@ -16,8 +16,8 @@ import {Component} from '@angular/core';
   selector : 'app-root',
   styleUrls : ['app.component.scss'],
   template : `
-  <passenger-dashboard></passenger-dashboard>
-    `
+  <app-passenger-viewer></app-passenger-viewer>
+  `
 })
 
 export class AppComponent {

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Passenger} from '../../passenger-dashboard/models/passenger.interface';
-import { PassengerDashboardService } from '../passenger-dashboard.service';
+import {Passenger} from '../../models/passenger.interface';
+import { PassengerDashboardService } from '../../passenger-dashboard.service';
 
 
 @Component({

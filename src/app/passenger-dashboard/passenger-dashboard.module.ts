@@ -1,30 +1,28 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {HttpClientModule} from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 //container
-import { PassengerDashboardComponent } from './containers/passenger-dashoard.component';
+import { PassengerDashboardComponent } from './containers/passenger-dashboard/passenger-dashoard.component';
+import { PassengerViewerComponent } from './containers/passenger-viewer/passenger-viewer.component';
 
 //stateless childern of container
-import {PassengerCountComponent} from './components/passenger-count/passenger-count.component';
-import {PassengerDetailComponent} from './components/passenger-detail/passenger-detail.component';
+import { PassengerCountComponent } from './components/passenger-count/passenger-count.component';
+import { PassengerDetailComponent } from './components/passenger-detail/passenger-detail.component';
 
 // services
 import { PassengerDashboardService } from './passenger-dashboard.service';
 
 @NgModule({
-    declarations : [PassengerDashboardComponent, PassengerCountComponent, PassengerDetailComponent],
-    imports : [CommonModule, HttpClientModule],
-    exports : [PassengerDashboardComponent],
-    /**
-     * This is used to declare any service classes, that the declared components would like to use.
-     * 
-     * Also Note: A provider is an instruction to the Dependency Injection system
-     * on how to obtain a value for a dependency.
-     * 
-     * Remove this and constructOR DI will go kaboom !!!
-     */
-    providers : [PassengerDashboardService]
+    declarations: [
+        PassengerDashboardComponent,
+        PassengerCountComponent,
+        PassengerDetailComponent, 
+        PassengerViewerComponent
+    ],
+    imports: [CommonModule, HttpClientModule],
+    exports: [PassengerDashboardComponent, PassengerViewerComponent],
+    providers: [PassengerDashboardService]
 })
 export class PassengerDashboardModule {
 
