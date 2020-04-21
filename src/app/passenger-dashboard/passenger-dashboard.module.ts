@@ -1,5 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {HttpClientModule} from '@angular/common/http';
+
 //container
 import { PassengerDashboardComponent } from './containers/passenger-dashoard.component';
 
@@ -12,7 +14,7 @@ import { PassengerDashboardService } from './passenger-dashboard.service';
 
 @NgModule({
     declarations : [PassengerDashboardComponent, PassengerCountComponent, PassengerDetailComponent],
-    imports : [CommonModule],
+    imports : [CommonModule, HttpClientModule],
     exports : [PassengerDashboardComponent],
     /**
      * This is used to declare any service classes, that the declared components would like to use.
