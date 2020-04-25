@@ -8,5 +8,6 @@ export interface Passenger{
     fullname : string,
     checkedIn : boolean,
     checkInDate : number | null,
-    baggage: string
+    baggage: string,
+    gender: string
 }

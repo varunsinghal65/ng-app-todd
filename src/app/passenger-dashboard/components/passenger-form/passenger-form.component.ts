@@ -6,33 +6,78 @@ import { Passenger } from '../../models/passenger.interface';
     styleUrls: ['passenger-form.component.scss'],
     template: `
     {{ detail | json }}
-    <!--
-    - Angular provides a directive ngForm.
-    - ngForm keeps track of state of the form and validations inside it.
-    - We export the state with #formState="ngForm".
-    - Every <input> tag inside form will have its value stored in a property in formState.
-    - The name of the property is determined by the "name" attribute in <input> tag.
-    - For binding the <input> tag state with "formState", angular directive ngModel is used.
-    - So, any change in <input> tag state, will cuase change in formState ==> 1 way databinding.
-    - To show initial value in the <input> tags, we can also bind to ngModel ==> [ngModel]="TS variable"
-    -->
     <form #formState="ngForm">
+
+        <!-- TEXT -->
         <input 
          type="text"
          name="fullname"
          [ngModel]="detail?.fullname">
+
+         <!-- NUMBER -->
+         <input 
+         type="number"
+         name="id"
+         [ngModel]="detail?.id">
+
+         <!-- Radio buttons -->
+
+         <!--
+         Logic :
+         1. if a radio button is checked by the user, the contents of the "value" attribute of the <input>
+         tag are assigned to the <input> tag's state in the ngForm object.
+         2. if the initial value populated via [ngModel] matches the contents of "value" attribute, 
+         the radio button is shown as checked
+         3. [value]="X", X will be interpreted as boolean, otherwise string.
+         -->
+
+         <!-- Radio for checkin -->
+         <label>
+            <input 
+            type="radio"
+            [value]="true"
+            name="checkedIn"
+            [ngModel]="detail?.checkedIn">
+            Yes
+         </label>
+
+         <label>
+            <input 
+            type="radio"
+            [value]="false"
+            name="checkedIn"
+            [ngModel]="detail?.checkedIn">
+            No
+        </label>
+
+        <!-- Edit for checkindate -->
+        <div *ngIf="formState.value.checkedIn">
+            <input
+             type="number"
+             name="checkInDate"
+             [ngModel]="detail?.checkInDate">
+        </div>
+
+        <!-- radio for gender -->
+        <label>
+            <input 
+            type="radio"
+            value="female"
+            name="gender"
+            [ngModel]="detail?.gender">
+            female
+        </label>
+
+        <label>
+            <input 
+            type="radio"
+            value="male"
+            name="gender"
+            [ngModel]="detail?.gender">
+            male
+        </label>
     </form>
-    {{ formState.value | json }}
-    <!-- Summary -->
-    <!--
-    <input [value]="TS variable"> and <input [ngModel]="TS variable"> are same.
-    In above form example,
-    1 way databinding from <input>'s state (value) to formState 
-         ==> you type something in input, formState updated
-    1 way dataBinding from "detail.fullName" to <input>'s state (value)
-         ==> if in the TS, detail.fullName is modified, <input>'s state modifed, formState modifed
-    -->
-    `
+    {{ formState.value | json }}`
 })
 export class PassengerFormComponent {
 
