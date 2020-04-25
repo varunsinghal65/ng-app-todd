@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Passenger } from '../../models/passenger.interface';
 import {Baggage} from '../../models/baggage.interface';
 
@@ -7,21 +7,12 @@ import {Baggage} from '../../models/baggage.interface';
     styleUrls: ['passenger-form.component.scss'],
     template: `
     {{ detail | json }}
-    <form #formState="ngForm">
+    <!-- ngSubmit event is fired, when user clicks on submit button,
+    on submit we, emit notify the parent stateful component with the updated pax data, 
+    by emitting a update event, that the parent is listening to -->
+    <form #formState="ngForm" (ngSubmit)="handleFormSubmit(formState.value, formState.valid)">
 
         <!-- TEXT -->
-
-        <!--
-        Apart from binding to the value HTML property of DOM elem and binding to formState,
-        ngModel also keeps tracks of validation states of the form. It stores the errors, that were
-        detected in forms. To see them, we export the ngModel of <input> tag.
-
-        Now, to show error message why are we using ngModelTemplateRef.dirty ?
-
-        If the initial pax name was empty, then error would be shown, which degrades UX.
-        We want the error messge to appear only when the user has interacted with the input tag.
-        "dirty" property is the flag, that tells us if this interaction has happened indeed.
-        -->
         <div> Passenger Name :
             <input 
             type="text"
@@ -120,6 +111,9 @@ export class PassengerFormComponent {
     @Input()
     detail: Passenger;
 
+    @Output()
+    updateEvent : EventEmitter<Passenger> = new EventEmitter<Passenger>();
+
     readonly baggages: Baggage[] = [{
         key: 'none',
         value: 'No baggage'
@@ -136,5 +130,11 @@ export class PassengerFormComponent {
 
     constructor() {
         this.detail = null;
+    }
+
+    handleFormSubmit(updatedPassenger: Passenger, isValid:boolean) {
+        if (isValid) {
+            this.updateEvent.emit(updatedPassenger);
+        }
     }
 }

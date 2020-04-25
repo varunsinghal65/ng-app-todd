@@ -7,7 +7,9 @@ import { Passenger } from '../../models/passenger.interface';
     selector : 'app-passenger-viewer',
     styleUrls : ['passenger-viewer.component.scss'],
     template : `
-    <app-passenger-form [detail]="pax">
+    <app-passenger-form 
+    [detail]="pax"
+    (updateEvent)="handleUpdate($event)">
     </app-passenger-form>
     `
 })
@@ -19,5 +21,10 @@ export class PassengerViewerComponent implements OnInit{
 
     ngOnInit() {
         this.pax = this.paxService.getPassenger(1);
+    }
+
+    handleUpdate(updatedPax: Passenger) {
+        this.paxService.updatePassenger(updatedPax);
+        this.pax = Object.assign({}, updatedPax);
     }
 }

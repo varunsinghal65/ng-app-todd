@@ -66,4 +66,13 @@ export class PassengerDashboardService {
     return filteredPassengers[0];
   }
 
+  updatePassenger(updatedPax: Passenger) {
+    this.passengers = this.passengers.map((pax)=>{
+      if (pax.id === updatedPax.id) {
+        pax = Object.assign({}, updatedPax);
+      }
+      return pax;
+    });
+  }
+
 }
