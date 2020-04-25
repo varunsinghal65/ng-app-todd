@@ -7,9 +7,8 @@ import { Passenger } from '../../models/passenger.interface';
     selector : 'app-passenger-viewer',
     styleUrls : ['passenger-viewer.component.scss'],
     template : `
-    <div>
-        {{ pax | json }}
-    </div>
+    <app-passenger-form [detail]="pax">
+    </app-passenger-form>
     `
 })
 export class PassengerViewerComponent implements OnInit{
