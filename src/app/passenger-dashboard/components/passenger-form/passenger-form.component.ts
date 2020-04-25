@@ -10,19 +10,42 @@ import {Baggage} from '../../models/baggage.interface';
     <form #formState="ngForm">
 
         <!-- TEXT -->
+
+        <!--
+        Apart from binding to the value HTML property of DOM elem and binding to formState,
+        ngModel also keeps tracks of validation states of the form. It stores the errors, that were
+        detected in forms. To see them, we export the ngModel of <input> tag.
+
+        Now, to show error message why are we using ngModelTemplateRef.dirty ?
+
+        If the initial pax name was empty, then error would be shown, which degrades UX.
+        We want the error messge to appear only when the user has interacted with the input tag.
+        "dirty" property is the flag, that tells us if this interaction has happened indeed.
+        -->
         <div> Passenger Name :
             <input 
             type="text"
             name="fullname"
+            required
+            #fullName = "ngModel"
             [ngModel]="detail?.fullname">
+            <div *ngIf="fullName.errors?.required && fullName.dirty" class = "error">
+              Passenger name is needed
+            </div>
+            ngModel.errors : {{ fullName.errors | json }}
          </div>
 
          <!-- NUMBER -->
          <div> Passenger ID
-            <input 
+            <input
             type="number"
             name="id"
+            required
+            #id="ngModel"
             [ngModel]="detail?.id">
+            <div *ngIf="id.errors?.required && id.dirty" class = "error">
+                Passenger name is needed
+            </div>
          </div>
 
          <!-- Checkbox -->
@@ -61,19 +84,6 @@ import {Baggage} from '../../models/baggage.interface';
         </label>
 
         <!-- Select for baggage -->
-        <!--
-        Logic : 
-        1. When user selects a option, contents of "value" attribute of <option> tag are assigned 
-        to the <select> tag's state in ngForm.
-        2. To display the initial value, bind the initial model to <select> via [ngModel].
-        3. Then, in the <option>, bind a expression to the "selected" property of the tag.
-        The expression will check if the initial model (detail?.baggage) matches any model, 
-        thats being used to create the <option> tag. If yes, selected is marked true, for 
-        that option tag, selecting the option in DOM.
-        
-        Note : The initial model (detail?.baggage) in <option> is available only because of
-        [ngModel] binding in <select>.
-        -->
         <div> Baggage : 
             <!-- Way 1 of selecting the option based on initial model 
             Note: [value]="X", means, angular will interpret X as non string value.
@@ -89,21 +99,20 @@ import {Baggage} from '../../models/baggage.interface';
                     {{baggage.value}}
                 </option>
             </select>
-
-            <!-- Way 2 of selecting the option based on initial model -->
-            <select
-            name="baggage"
-            [ngModel]="detail?.baggage">
-               <option 
-                *ngFor="let baggage of baggages"
-                [ngValue]="baggage.key"> 
-                {{ baggage.value }}
-               </option>
-           </select>
         </div>
-    </form>
 
-    {{ formState.value | json }}`
+
+        <!-- Form validity -->
+        <div>
+          {{ formState.value | json }}<br>
+          Valid : {{ formState.valid }} <br>
+          Invalid : {{ formState.invalid }}
+        </div>
+
+
+    </form>
+    `
+
 })
 export class PassengerFormComponent {
 
@@ -127,5 +136,4 @@ export class PassengerFormComponent {
     constructor() {
         this.detail = null;
     }
-
 }
