@@ -109,7 +109,8 @@ import {Baggage} from '../../models/baggage.interface';
           Invalid : {{ formState.invalid }}
         </div>
 
-
+        <!-- Submit button -->
+        <button type="submit" [disabled]="formState.invalid">Update Passenger</button>
     </form>
     `
 
