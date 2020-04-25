@@ -18,7 +18,7 @@ export class PassengerDashboardService {
       fullname: 'Stephen',
       checkedIn: true,
       checkInDate: 1490742000000,
-      baggage: "",
+      baggage: "none",
       gender: 'male'
     }, {
       id: 2,
