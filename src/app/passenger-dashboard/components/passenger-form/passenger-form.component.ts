@@ -20,35 +20,18 @@ import { Passenger } from '../../models/passenger.interface';
          name="id"
          [ngModel]="detail?.id">
 
-         <!-- Radio buttons -->
-
-         <!--
-         Logic :
-         1. if a radio button is checked by the user, the contents of the "value" attribute of the <input>
-         tag are assigned to the <input> tag's state in the ngForm object.
-         2. if the initial value populated via [ngModel] matches the contents of "value" attribute, 
-         the radio button is shown as checked
-         3. [value]="X", X will be interpreted as boolean, otherwise string.
+         <!-- Checkbox -->
+         <!-- 
+         1. Checkboxes control can have only 2 values : true or false, so no need of "value" attribute.
+         2. To summarize, in template driven forms, template form data is the source of truth,
+          meaning, template data will be the one that will be updated in the data model
+          and sent for persistence to backend.
          -->
-
-         <!-- Radio for checkin -->
-         <label>
-            <input 
-            type="radio"
-            [value]="true"
-            name="checkedIn"
-            [ngModel]="detail?.checkedIn">
-            Yes
-         </label>
-
-         <label>
-            <input 
-            type="radio"
-            [value]="false"
-            name="checkedIn"
-            [ngModel]="detail?.checkedIn">
-            No
-        </label>
+        <label>Checked in :</label> 
+        <input
+        type="checkbox"
+        name="checkedIn"
+        [ngModel]="detail?.checkedIn">
 
         <!-- Edit for checkindate -->
         <div *ngIf="formState.value.checkedIn">
