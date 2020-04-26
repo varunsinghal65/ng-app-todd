@@ -23,12 +23,14 @@ import {NotFoundComponent} from './not-found.component';
  */
 
  /**
-  * '**' is a wild card path, meaning, every navigation will be matched against this route.
-  * So, of we place it at last, it means, none of the above routes have matched, hence it acts 
-  * as a route for 404 page.
+  * Sometimes, you would want to redirect control to another route, once a route is activated.
+  * 
+  * For e,g : I want to show passengers component instead of HomeComponent(when the route path '/' is active).
+  * 
+  * So i will use redirectTo property in route config. 
   */
  export const ROOT_APP_ROUTES : Routes = [{
-   path: '', component: HomeComponent, pathMatch: 'full',
+   path: '', redirectTo: 'passengers', pathMatch: 'full',
  }, {
   path: '**', component: NotFoundComponent
  }];
@@ -41,10 +43,7 @@ import {NotFoundComponent} from './not-found.component';
   ],
   imports : [
     // angular modules
-    // Ng by defaults uses HTML 5 based history api for routing, 
-    // you could change it to hash based
-    // Deeper understanding needed, which is better : https://stackoverflow.com/questions/9340121/what-are-the-differences-between-history-pushstate-location-hash
-    BrowserModule, CommonModule, RouterModule.forRoot(ROOT_APP_ROUTES, {useHash: true}),
+    BrowserModule, CommonModule, RouterModule.forRoot(ROOT_APP_ROUTES),
     // feature modules
     PassengerDashboardModule
   ],
