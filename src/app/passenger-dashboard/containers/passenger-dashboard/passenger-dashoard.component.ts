@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Passenger} from '../../models/passenger.interface';
 import { PassengerDashboardService } from '../../passenger-dashboard.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,8 +16,10 @@ import { PassengerDashboardService } from '../../passenger-dashboard.service';
       *ngFor="let pax of passengers;"
       [detail]="pax"
       (edit)="handleEdit($event)"
+      (view)="handleView($event)"
       (remove)="handleRemove($event)">
     </passenger-detail>
+    <a routerLink='1'>YO YO</a>
     `
 })
 export class PassengerDashboardComponent implements OnInit{
@@ -32,7 +35,9 @@ export class PassengerDashboardComponent implements OnInit{
    * 
    * @param paxSevice 
    */
-  constructor(private readonly paxSevice: PassengerDashboardService) {
+  constructor(
+    private readonly paxSevice: PassengerDashboardService,
+    private readonly router: Router) {
   }
 
   /**
@@ -44,18 +49,17 @@ export class PassengerDashboardComponent implements OnInit{
   }
 
   handleRemove(event: Passenger) {
-    this.passengers = this.passengers.filter((pax:Passenger)=>{
-      return pax.id !== event.id;
-    });
+    this.paxSevice.removePassenger(event);
+    this.passengers = this.paxSevice.getPassengers();
   }
 
   handleEdit(event: Passenger) {
-    this.passengers = this.passengers.map((pax:Passenger)=>{
-      if (pax.id === event.id) {
-        pax = Object.assign({}, pax, event);
-      }
-      return pax;
-    });
-    console.log(this.passengers);
+    this.paxSevice.updatePassenger(event);
+    this.passengers = this.paxSevice.getPassengers();
+  }
+  
+  handleView(event: Passenger) {
+    console.log(event);
+    this.router.navigate(['passengers', event.id]);
   }
 }

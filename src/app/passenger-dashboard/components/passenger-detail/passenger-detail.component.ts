@@ -47,6 +47,10 @@ import { Passenger } from '../../models/passenger.interface';
     <!-- Remove button -->
     <button (click)="onRemove()">Remove
     </button>
+
+    <!-- View button -->
+    <button (click)="onView()">View
+    </button>
 `
 })
 export class PassengerDetailComponent implements OnChanges, OnInit{
@@ -62,9 +66,11 @@ export class PassengerDetailComponent implements OnChanges, OnInit{
   * so that parent container can be updated/notified
   */
   @Output()
-  remove: EventEmitter<any> = new EventEmitter();
+  remove: EventEmitter<Passenger> = new EventEmitter<Passenger>();
   @Output()
-  edit: EventEmitter<any> = new EventEmitter();
+  edit: EventEmitter<Passenger> = new EventEmitter<Passenger>();
+  @Output()
+  view: EventEmitter<Passenger> = new EventEmitter<Passenger>();
 
   isEditMode: boolean = false;
 
@@ -104,5 +110,9 @@ export class PassengerDetailComponent implements OnChanges, OnInit{
 
   onRemove() {
     this.remove.emit(this.detail);
+  }
+
+  onView() {
+    this.view.emit(this.detail);
   }
 }

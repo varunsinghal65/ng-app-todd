@@ -79,4 +79,9 @@ export class PassengerDashboardService {
     });
   }
 
+  removePassenger(paxToBeRemoved: Passenger) {
+    this.passengers = this.passengers.filter(pax => pax.id !== paxToBeRemoved.id);
+    console.log(this.passengers);
+  }
+
 }
