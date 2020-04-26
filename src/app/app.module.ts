@@ -23,14 +23,9 @@ import {NotFoundComponent} from './not-found.component';
  */
 
  /**
-  * Sometimes, you would want to redirect control to another route, once a route is activated.
-  * 
-  * For e,g : I want to show passengers component instead of HomeComponent(when the route path '/' is active).
-  * 
-  * So i will use redirectTo property in route config. 
   */
  export const ROOT_APP_ROUTES : Routes = [{
-   path: '', redirectTo: 'passengers', pathMatch: 'full',
+   path: '', component: HomeComponent, pathMatch: 'full',
  }, {
   path: '**', component: NotFoundComponent
  }];
