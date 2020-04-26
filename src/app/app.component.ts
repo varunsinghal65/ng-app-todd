@@ -16,7 +16,8 @@ import {Component} from '@angular/core';
   selector : 'app-root',
   styleUrls : ['app.component.scss'],
   template : `
-  <app-passenger-viewer></app-passenger-viewer>
+  <!-- This is the place where angular router will render the routed components -->
+  <router-outlet></router-outlet>
   `
 })
 
