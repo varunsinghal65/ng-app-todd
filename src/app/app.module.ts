@@ -2,6 +2,7 @@ import { AppComponent } from './app.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from  '@angular/common';
+import {RouterModule} from '@angular/router';
 import {PassengerDashboardModule} from './passenger-dashboard/passenger-dashboard.module';
 
 /**
@@ -25,7 +26,7 @@ import {PassengerDashboardModule} from './passenger-dashboard/passenger-dashboar
   ],
   imports : [
     // angular modules
-    BrowserModule, CommonModule,
+    BrowserModule, CommonModule, RouterModule,
     // feature modules
     PassengerDashboardModule
   ],
