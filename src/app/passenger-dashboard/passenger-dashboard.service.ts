@@ -63,6 +63,10 @@ export class PassengerDashboardService {
       console.error("BAD MOCK JSON DATA : passengers with multiple IDs detected");
       return null;
     }
+    if (filteredPassengers.length < 1) {
+      console.error("BAD MOCK JSON DATA : passenger with id " + id + " does not exist");
+      return null;
+    }
     return filteredPassengers[0];
   }
 
