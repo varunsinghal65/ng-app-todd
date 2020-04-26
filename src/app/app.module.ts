@@ -41,7 +41,10 @@ import {NotFoundComponent} from './not-found.component';
   ],
   imports : [
     // angular modules
-    BrowserModule, CommonModule, RouterModule.forRoot(ROOT_APP_ROUTES),
+    // Ng by defaults uses HTML 5 based history api for routing, 
+    // you could change it to hash based
+    // Deeper understanding needed, which is better : https://stackoverflow.com/questions/9340121/what-are-the-differences-between-history-pushstate-location-hash
+    BrowserModule, CommonModule, RouterModule.forRoot(ROOT_APP_ROUTES, {useHash: true}),
     // feature modules
     PassengerDashboardModule
   ],
