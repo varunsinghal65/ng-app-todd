@@ -10,7 +10,7 @@
  * <button (click)="handleClick(reference)"></button>
  */
 
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 interface NavItem {
   name: string,
@@ -19,9 +19,9 @@ interface NavItem {
 }
 
 @Component({
-  selector : 'app-root',
-  styleUrls : ['app.component.scss'],
-  template : `
+  selector: 'app-root',
+  styleUrls: ['app.component.scss'],
+  template: `
   <nav class='nav'>
     <a *ngFor="let navItem of navItems"
      [routerLink]='navItem.link' 
@@ -36,7 +36,8 @@ export class AppComponent {
 
   readonly navItems: NavItem[] = [
     { name: 'Home', link: '/', exactLinkMatch: true },
-    { name: '404', link: '/oops', exactLinkMatch: false }
+    { name: '404', link: '/oops', exactLinkMatch: false },
+    { name: 'Passengers', link: '/passengers', exactLinkMatch: false }
   ];
 
 
